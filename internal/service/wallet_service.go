@@ -55,6 +55,7 @@ func (w *walletServiceImpl) TransferWallet(c context.Context, req *dto.TransferW
 	//rounded amount
 	amount := req.Amount.Round(2)
 	if amount.LessThanOrEqual(decimal.Zero) {
+		w.Log.WithField("trace_id", traceID).Warn("transfer: amount must be greater than zero")
 		return traceID, ErrAmountMustBeGreater
 	}
 

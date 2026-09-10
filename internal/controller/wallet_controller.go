@@ -26,7 +26,7 @@ func NewWalletControllerImpl(walletService service.WalletService) WalletControll
 func (w *walletControllerImpl) TransferWallet(c *gin.Context) {
 	var req dto.TransferWalletReq
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, response.ErrorValidate("invalid request body"))
+		c.JSON(http.StatusBadRequest, response.ErrorValidate(err.Error()))
 		return
 	}
 
