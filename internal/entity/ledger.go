@@ -1,0 +1,26 @@
+package entity
+
+import (
+	"time"
+
+	"github.com/google/uuid"
+	"github.com/shopspring/decimal"
+)
+
+type Ledger struct {
+	ID          uuid.UUID       `gorm:"type:uuid;default:uuid_generate_v4();primaryKey" json:"id"`
+	WalletID    uuid.UUID       `gorm:"type:uuid;notnull;uniqueIndex:ref_wallet" json:"wallet_id"`
+	Wallet      Wallet          `gorm:"foreignKey:WalletID;" json:"wallet"`
+	ReferenceID string          `gorm:"type:varchar(100);notnull;uniqueIndex:ref_wallet" json:"reference_id"`
+	Amount      decimal.Decimal `gorm:"type:decimal(20,2);notnull" json:"amount"`
+	Currency    string          `gorm:"type:varchar(3);notnull" json:"currency"`
+	Type        LedgerType      `gorm:"type:varchar(20);notnull" json:"type"`
+	CreatedAt   time.Time       `gorm:"type:timestamptz;default:CURRENT_TIMESTAMP" json:"created_at"`
+}
+
+type LedgerType string
+
+const (
+	LedgerTypeDebit LedgerType = "DEBIT"
+	LedgerTypeKredit  LedgerType = "KREDIT"
+)
